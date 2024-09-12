@@ -1,0 +1,15 @@
+services:
+  caddy:
+    container_name: caddy-terraform-registry-cache
+    image: circa10a/caddy-terraform-registry-cache
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      - REGISTRY_SITE_ADDRESS=<some domain>
+      - RELEASES_SITE_ADDRESS=<some other domain>
+    volumes:
+      - cache:/cache
+
+volumes:
+  cache:

@@ -1,0 +1,46 @@
+{
+	admin off
+	order replace after encode
+
+	cache {
+		badger {
+			# Path to cache directory (./cache)
+			path /cache
+			configuration {
+				# 2G max, need to increase from default as providers can get large
+				ValueLogFileSize 2147483647
+			}
+		}
+		stale 86400s # 1 day
+		ttl 604800s # 1 week
+	}
+}
+
+(reverse_proxy_defaults) {
+	# Remove client requested headers so Souin doesn't respect the headers
+	header_up -*
+	header_up Host {upstream_hostport}
+	# Remove max-age
+	header_down cache-control "stale-if-error=604800, stale-while-revalidate=86400, public"
+}
+
+{$REGISTRY_SITE_ADDRESS} {
+	cache
+	reverse_proxy https://registry.terraform.io {
+		import reverse_proxy_defaults
+	}
+
+	# Re-route index responses to point to our server here
+	replace {
+		match {
+			header Content-Type application/json
+		}
+		"releases.hashicorp.com" {$RELEASES_SITE_ADDRESS}
+	}
+}
+
+{$RELEASES_SITE_ADDRESS} {
+	reverse_proxy https://releases.hashicorp.com {
+		import reverse_proxy_defaults
+	}
+}
