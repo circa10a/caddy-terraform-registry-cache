@@ -1,12 +1,11 @@
-# caddy-terraform-registry-cache
+# caddy-terraform-registry-cache <img src="https://i.imgur.com/fAS7XqO.png" height="5%" width="5%" align="left"/>
 
 A pull-through cache for Terraform providers using only Caddy. [Inspired by terrateam.io's blog post](https://terrateam.io/blog/terraform-registry-cache)
 
 ![Build Status](https://github.com/circa10a/caddy-terraform-registry-cache/workflows/deploy/badge.svg)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/circa10a/caddy-terraform-registry-cache?style=plastic)
 ![Docker Pulls](https://img.shields.io/docker/pulls/circa10a/caddy-terraform-registry-cache?style=plastic)
 
-![alt text](https://user-images.githubusercontent.com/1128849/36338535-05fb646a-136f-11e8-987b-e6901e717d5a.png)
+<img src="https://user-images.githubusercontent.com/1128849/36338535-05fb646a-136f-11e8-987b-e6901e717d5a.png" height="60%" width="60%"/>
 
 ## Background
 
@@ -21,7 +20,7 @@ You'll need two domains pointed at the address that hosts this web server. They'
 
 ## Usage
 
-To run `caddy-terraform-registry-cache`, you'll need two domains with DNS records for your host(s). This is required due to the use of the [ACME protocol implemented by Caddy](https://caddyserver.com/docs/automatic-https) for automatic TLS by using certificates issued by [Let's Encrypt](https://letsencrypt.org/). The configuration could of course be [modified to supply your own certificate and key](https://caddyserver.com/docs/caddyfile/directives/tls), but it isn't natively supported via environment variables.
+To run `caddy-terraform-registry-cache`, you'll need two domains with DNS records for your host(s). This is required due to the use of the [ACME protocol implemented by Caddy](https://caddyserver.com/docs/automatic-https) for automatic TLS by using certificates issued by [Let's Encrypt](https://letsencrypt.org/) because Terraform/Opentofu require registries to use HTTPS. The configuration could of course be [modified to supply your own certificate and key](https://caddyserver.com/docs/caddyfile/directives/tls), but it isn't natively supported via environment variables.
 
 ```console
 docker run --rm --name caddy-terraform-registry-cache  \
@@ -38,9 +37,9 @@ docker run --rm --name caddy-terraform-registry-cache  \
 
 ### Terraform configuration
 
-You'll need to modify your Terraform/Opentofu source to point to the caddy reverse proxy. Yes, this does indeed mean that we're installing entirely different providers from a Terraform perspective and it is much more ideal to implement [the network mirror protocol](https://developer.hashicorp.com/terraform/internals/provider-network-mirror-protocol). I understand why Hashicorp did this since the protocol does allow for some more flexiblility for download locations, but wouldn't it be nice to also support a simple caching reverse proxy natively instead of writing a full blown API to implement the protocol? :shrug:
+You'll need to modify your Terraform/Opentofu source to point to the caddy reverse proxy. Yes, this does indeed mean that we're installing entirely different providers from a Terraform perspective and it is much more ideal to implement [the network mirror protocol](https://developer.hashicorp.com/terraform/internals/provider-network-mirror-protocol). I understand why Hashicorp did this since the protocol does allow for some more flexiblility for download locations.
 
-Enough ranting, here's how you use this proxy in Terraform:
+Here's how you use this proxy in Terraform:
 
 ```hcl
 terraform {
