@@ -5,7 +5,7 @@ A pull-through cache for Terraform providers using only Caddy. [Inspired by terr
 ![Build Status](https://github.com/circa10a/caddy-terraform-registry-cache/workflows/deploy/badge.svg)
 ![Docker Pulls](https://img.shields.io/docker/pulls/circa10a/caddy-terraform-registry-cache?style=plastic)
 
-<img src="https://user-images.githubusercontent.com/1128849/36338535-05fb646a-136f-11e8-987b-e6901e717d5a.png" height="60%" width="60%"/>
+<img src="https://user-images.githubusercontent.com/1128849/36338535-05fb646a-136f-11e8-987b-e6901e717d5a.png" width="60%"/>
 
 ## Background
 
